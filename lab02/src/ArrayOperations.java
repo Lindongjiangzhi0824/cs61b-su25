@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /** Array Operations Class. Optional Exercise **/
 public class ArrayOperations {
     /**
@@ -9,7 +11,13 @@ public class ArrayOperations {
         if (pos < 0 || pos >= values.length) {
             return;
         }
-        // TODO: fill out this function
+        for (int i = pos; i < values.length; i++) {
+            if (i == values.length - 1) {
+                values[i] = 0;
+            } else {
+                values[i] = values[i+1];
+            }
+        }
     }
 
     /**
@@ -21,7 +29,14 @@ public class ArrayOperations {
         if (pos < 0 || pos >= values.length) {
             return;
         }
-        // TODO: fill out this function
+        if (pos == values.length - 1) {
+            values[pos] = newInt;
+            return;
+        }
+        for (int i = values.length - 1; i > pos; i--) {
+            values[i] = values[i-1];
+        }
+        values[pos] = newInt;
     }
 
     /** 
@@ -29,8 +44,24 @@ public class ArrayOperations {
      *  the elements of B. 
      */
     public static int[] catenate(int[] A, int[] B) {
-        // TODO: fill out this function
-        return null;
+        if (A.length == 0) {
+            return B;
+        }
+        if (B.length == 0) {
+            return A;
+        }
+
+        int len1 = A.length, len2 = B.length;
+        int[] result = new int[len1+len2];
+
+        for (int i = 0; i < A.length; i++) {
+            result[i] = A[i];
+        }
+        for (int i = 0; i < B.length; i++) {
+            result[i+A.length] = B[i];
+        }
+
+        return result;
     }
 
 }
