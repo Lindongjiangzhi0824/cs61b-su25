@@ -5,10 +5,17 @@
 public class Account {
 
     private int balance;
+    public Account overdraft;
 
     /** Initialize an account with the given balance. */
     public Account(int balance) {
         this.balance = balance;
+        this.overdraft = null;
+    }
+
+    public Account(int balance, Account overdraft) {
+        this.balance = balance;
+        this.overdraft = overdraft;
     }
 
     /** Returns the balance for the current account. */
@@ -30,14 +37,24 @@ public class Account {
      * would leave a negative balance, print an error message and leave the
      * balance unchanged.
      */
-    public void withdraw(int amount) {
+    public boolean withdraw(int amount) {
         // TODO
         if (amount < 0) {
             System.out.println("Cannot withdraw negative amount.");
-        } else if (balance < amount) {
-            System.out.println("Insufficient funds");
+            return false;
+        } else if (this.getBalance() < amount) {
+            int gap = amount - this.getBalance();
+            boolean result = false;
+            if (this.overdraft != null) {
+                result = this.overdraft.withdraw(gap);
+            }
+            if (result) {
+                this.withdraw(this.getBalance());
+            }
+            return result;
         } else {
             balance -= amount;
+            return true;
         }
     }
 
@@ -47,5 +64,11 @@ public class Account {
      */
     public void merge(Account other) {
         // TODO
+        int balance = other.getBalance();
+        if (balance <= 0) {
+            System.out.println("Other account balance less or equal than 0.");
+        }
+        other.withdraw(balance);
+        this.deposit(balance);
     }
 }
