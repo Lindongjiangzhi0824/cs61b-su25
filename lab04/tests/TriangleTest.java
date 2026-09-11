@@ -1,4 +1,3 @@
-import org.junit.Rule;
 import org.junit.Test;
 import static com.google.common.truth.Truth.assertWithMessage;
 public abstract class TriangleTest {
