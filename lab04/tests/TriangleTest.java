@@ -47,4 +47,13 @@ public abstract class TriangleTest {
         assertWithMessage("3, 3 的平方斜边为 18").that(t.squaredHypotenuse(3,3)).isEqualTo(18);
     }
 
+    @Test
+    public void test1() {
+        // stub for first test
+        Triangle t = getNewTriangle();
+        // remember that you'll have to call on Triangle methods like
+        // t.functionName(arguments), where t is a Triangle object
+
+    }
+
 }
