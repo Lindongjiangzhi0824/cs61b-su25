@@ -27,12 +27,15 @@ public class GameLogic {
         if (r == 0) return 0;
         // 如果 board[r][c] == 0 , 不用动
         if (board[r][c] == 0) return 0;
-        // 遍历 c 列的 行 < r 的值，移动到第一个不为 0 的位置上
-        for (int i = 0 ; i < r ; i++) {
-            if (board[i][c] == 0) {
-                board[i][c] = board[r][c];
+        // 列不变，从 r - 1 行开始看有没有一样的，有就合并
+        for (int i = r - 1 ; i >= 0 ; i--) {
+            if (board[i][c] == board[r][c]) {
+                board[i][c] = board[r][c] * 2;
                 board[r][c] = 0;
-                return 1;
+                return i + 1;
+            }
+            if (board[i][c] != 0) {
+                return 0;
             }
         }
         return 0;
