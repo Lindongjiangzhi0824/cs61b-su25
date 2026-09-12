@@ -20,6 +20,21 @@ public class GameLogic {
      */
     public static int moveTileUpAsFarAsPossible(int[][] board, int r, int c, int minR) {
         // TODO: Fill this in in tasks 2, 3, 4
+        // 行列必须 >= 0
+        if (r < 0 || c < 0) return 0;
+        int row = board.length, col = board[0].length;
+        // 如果在第一行，不用动
+        if (r == 0) return 0;
+        // 如果 board[r][c] == 0 , 不用动
+        if (board[r][c] == 0) return 0;
+        // 遍历 c 列的 行 < r 的值，移动到第一个不为 0 的位置上
+        for (int i = 0 ; i < r ; i++) {
+            if (board[i][c] == 0) {
+                board[i][c] = board[r][c];
+                board[r][c] = 0;
+                return 1;
+            }
+        }
         return 0;
     }
 
