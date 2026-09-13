@@ -22,23 +22,31 @@ public class GameLogic {
         // TODO: Fill this in in tasks 2, 3, 4
         // 行列必须 >= 0
         if (r < 0 || c < 0) return 0;
-        int row = board.length, col = board[0].length;
         // 如果在第一行，不用动
         if (r == 0) return 0;
         // 如果 board[r][c] == 0 , 不用动
         if (board[r][c] == 0) return 0;
+        int temp = board[r][c];
         // 列不变，从 r - 1 行开始看有没有一样的，有就合并
-        for (int i = r - 1 ; i >= 0 ; i--) {
-            if (board[i][c] == board[r][c]) {
-                board[i][c] = board[r][c] * 2;
-                board[r][c] = 0;
+        // i 最小移动到 minR 行 (0开始)
+        for (int i = r - 1 ; i >= minR ; i--) {
+            if (board[i][c] == temp) {
+                board[i][c] = temp * 2;
+                board[i+1][c] = 0;
                 return i + 1;
+            }
+            if (board[i][c] == 0) {
+                board[i][c] = temp;
+                board[i+1][c] = 0;
+                continue;
             }
             if (board[i][c] != 0) {
                 return 0;
             }
+            if (i == minR) return minR;
         }
-        return 0;
+
+        return minR;
     }
 
     /**
