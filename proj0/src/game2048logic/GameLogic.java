@@ -61,11 +61,14 @@ public class GameLogic {
      * @param c         the column to tilt up.
      */
     public static void tiltColumn(int[][] board, int c) {
+        int alterLine = -1;
         // 对该列的每个非 0 元素从 最后一行到第一行 遍历执行 moveTileUpAsFarAsPossible
         int rows = board.length;
         for (int i = rows - 1; i >= 0; i--) {
             if (board[i][c] != 0) {
-                moveTileUpAsFarAsPossible(board, i, c, 0);
+                if (alterLine == i) {continue;}
+                // alterLine begin in 1 not 0; So need to substract 1;
+                alterLine = moveTileUpAsFarAsPossible(board, i, c, 0) - 1;
             }
         }
         // 如果这一列的某个非 0 数的上方存在为 0 的数, 则交换两数的位置
@@ -85,7 +88,10 @@ public class GameLogic {
      */
     public static void tiltUp(int[][] board) {
         // TODO: fill this in in task 6
-        return;
+        int colmns = board[0].length;
+        for (int i = 0; i < colmns; i++) {
+            tiltColumn(board, i);
+        }
     }
 
     /**
