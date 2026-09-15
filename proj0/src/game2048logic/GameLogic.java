@@ -66,7 +66,9 @@ public class GameLogic {
         int rows = board.length;
         for (int i = 1; i < board.length; i++) {
             if (board[i][c] != 0) {
-                if (alterLine == i) {continue;}
+                if (alterLine == i) {
+                    continue;
+                }
                 // alterLine begin in 1 not 0; So need to substract 1;
                 // alterLine 这行下面的行才可以动 ， 所以 minR = alterLine + 1
                 alterLine = moveTileUpAsFarAsPossible(board, i, c, alterLine + 1) - 1;
@@ -88,7 +90,6 @@ public class GameLogic {
      * @param board     the current state of the board.
      */
     public static void tiltUp(int[][] board) {
-        // TODO: fill this in in task 6
         int colmns = board[0].length;
         for (int i = 0; i < colmns; i++) {
             tiltColumn(board, i);
@@ -103,7 +104,6 @@ public class GameLogic {
      * @param side  the direction to tilt
      */
     public static void tilt(int[][] board, Side side) {
-        // TODO: fill this in in task 7
         if (side == Side.NORTH) {
             tiltUp(board);
         } else if (side == Side.EAST) {
