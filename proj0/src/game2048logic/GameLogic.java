@@ -64,15 +64,16 @@ public class GameLogic {
         int alterLine = -1;
         // 对该列的每个非 0 元素从 最后一行到第一行 遍历执行 moveTileUpAsFarAsPossible
         int rows = board.length;
-        for (int i = rows - 1; i >= 0; i--) {
+        for (int i = 1; i < board.length; i++) {
             if (board[i][c] != 0) {
                 if (alterLine == i) {continue;}
                 // alterLine begin in 1 not 0; So need to substract 1;
-                alterLine = moveTileUpAsFarAsPossible(board, i, c, 0) - 1;
+                // alterLine 这行下面的行才可以动 ， 所以 minR = alterLine + 1
+                alterLine = moveTileUpAsFarAsPossible(board, i, c, alterLine + 1) - 1;
             }
         }
         // 如果这一列的某个非 0 数的上方存在为 0 的数, 则交换两数的位置
-        for (int i = rows - 1; i >= 1; i--) {
+        for (int i = 1; i <= rows - 1; i++) {
             if (board[i][c] != 0 && board[i - 1][c] == 0) {
                 board[i - 1][c] = board[i][c];
                 board[i][c] = 0;
@@ -104,13 +105,21 @@ public class GameLogic {
     public static void tilt(int[][] board, Side side) {
         // TODO: fill this in in task 7
         if (side == Side.NORTH) {
-            return;
+            tiltUp(board);
         } else if (side == Side.EAST) {
-            return;
+            rotateLeft(board);
+            tiltUp(board);
+            rotateRight(board);
         } else if (side == Side.SOUTH) {
-            return;
+            rotateRight(board);
+            rotateRight(board);
+            tiltUp(board);
+            rotateLeft(board);
+            rotateLeft(board);
         } else if (side == Side.WEST) {
-            return;
+            rotateRight(board);
+            tiltUp(board);
+            rotateLeft(board);
         } else {
             System.out.println("Invalid side specified");
         }
