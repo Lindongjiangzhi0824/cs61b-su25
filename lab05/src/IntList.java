@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.In;
+
 /** A data structure to represent a Linked List of Integers.
  * Each IntList represents one node in the overall Linked List.
  */
@@ -215,8 +217,13 @@ public class IntList {
      * @return new list with A followed by B.
      */
     public static IntList catenate(IntList A, IntList B) {
-        // TODO: YOUR CODE HERE
-        return null;
+        if (A == null && B != null) {
+            return new IntList(B.item, catenate(A, B.next));
+        } else if (A == null && B == null) {
+            return null;
+        }
+
+        return new IntList(A.item, catenate(A.next, B));
     }
 
     /**
@@ -228,7 +235,20 @@ public class IntList {
      * @return new list with A followed by B.
      */
     public static IntList dcatenate(IntList A, IntList B) {
-        // TODO: YOUR CODE HERE
-        return null;
+        IntList temp = A;
+        if (A == null && B != null) {
+            return B;
+        } else if (A != null && B == null) {
+            return A;
+        } else if (A == null && B == null) {
+            throw new NullPointerException("参数不能都为 null");
+        }
+        // 找到最后一个节点
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+
+        temp.next = B;
+        return A;
     }
 }

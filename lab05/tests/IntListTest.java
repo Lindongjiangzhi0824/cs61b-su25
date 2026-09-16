@@ -153,11 +153,35 @@ public class IntListTest {
 
     @Test
     public void testCatenate() {
-        // TODO: Add tests
+        IntList A = IntList.of(1, 2);
+        IntList B = IntList.of(3, 4);
+        assertWithMessage("Create a non-destructive method catenate.").that(IntList.of(1, 2, 3, 4)).isEqualTo(IntList.catenate(A, B));
+        assertWithMessage("A shouldn't be changed.").that(IntList.of(1, 2)).isEqualTo(A);
+        assertWithMessage("B shouldn't be changed.").that(IntList.of(3, 4)).isEqualTo(B);
+
+        A = IntList.of(1, 2);
+        B = null;
+        assertWithMessage("When B is null.").that(IntList.of(1, 2)).isEqualTo(IntList.catenate(A, B));
+        assertWithMessage("A shouldn't be changed.").that(IntList.of(1, 2)).isEqualTo(A);
+
+        A = null;
+        B = IntList.of(1, 2);
+        assertWithMessage("When A is null.").that(IntList.of(1, 2)).isEqualTo(IntList.catenate(A, B));
+        assertWithMessage("B shouldn't be changed.").that(IntList.of(1, 2)).isEqualTo(B);
     }
 
     @Test
     public void testDCatenate() {
-        // TODO: Add test
+        IntList A = IntList.of(1, 2);
+        IntList B = IntList.of(3, 4);
+        assertWithMessage("A should be destructive modified to 1,2,3,4").that(IntList.dcatenate(A, B)).isEqualTo(IntList.of(1, 2, 3, 4));
+        assertWithMessage("A has been changed.").that(IntList.of(1, 2)).isNotEqualTo(A);
+
+        try {
+            IntList.dcatenate(null, null);
+            assertWithMessage("A、B 都为 null 时应抛 NullPointerException 或返回 null").fail();
+        } catch (NullPointerException e) {
+            assertWithMessage("Catch NullPointerException.");
+        }
     }
 }
