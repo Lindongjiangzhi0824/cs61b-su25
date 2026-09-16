@@ -135,8 +135,15 @@ public class IntList {
      * @return smallest element in the list
      */
     public int smallest() {
-        // TODO: YOUR CODE HERE
-        return -1;
+        int smallestElem = this.item;
+        IntList temp = this;
+        while (temp != null) {
+            if (temp.item < smallestElem) {
+                smallestElem = temp.item;
+            }
+            temp = temp.next;
+        }
+        return smallestElem;
     }
 
     /**
