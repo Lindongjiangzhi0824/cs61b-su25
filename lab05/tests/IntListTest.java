@@ -177,11 +177,8 @@ public class IntListTest {
         assertWithMessage("A should be destructive modified to 1,2,3,4").that(IntList.dcatenate(A, B)).isEqualTo(IntList.of(1, 2, 3, 4));
         assertWithMessage("A has been changed.").that(IntList.of(1, 2)).isNotEqualTo(A);
 
-        try {
-            IntList.dcatenate(null, null);
-            assertWithMessage("A、B 都为 null 时应抛 NullPointerException 或返回 null").fail();
-        } catch (NullPointerException e) {
-            assertWithMessage("Catch NullPointerException.");
-        }
+        A = null;
+        B = null;
+        assertWithMessage("A and B are both null , return null.").that(IntList.dcatenate(A, B)).isEqualTo(null);
     }
 }

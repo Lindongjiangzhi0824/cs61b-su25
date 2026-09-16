@@ -241,7 +241,7 @@ public class IntList {
         } else if (A != null && B == null) {
             return A;
         } else if (A == null && B == null) {
-            throw new NullPointerException("参数不能都为 null");
+            return null;
         }
         // 找到最后一个节点
         while (temp.next != null) {
