@@ -69,8 +69,15 @@ public class IntList {
      * @return The String representation of the list.
      */
     public String toString() {
-        // TODO: YOUR CODE HERE
-        return null;
+        String result = "";
+        for (IntList temp = this; temp != null; temp = temp.next) {
+            if (temp == this) {
+                result = result + temp.item;
+            } else {
+                result = result + " " + temp.item;
+            }
+        }
+        return result;
     }
 
     /**
