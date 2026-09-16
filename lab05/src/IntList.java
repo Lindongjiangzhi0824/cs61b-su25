@@ -47,8 +47,19 @@ public class IntList {
      * @return The element at [position]
      */
     public int get(int position) {
-        // TODO: YOUR CODE HERE
-        return -1;
+        if (position < 0) {
+            throw new IllegalArgumentException("Illegal index.");
+        }
+        IntList tempNode = this;
+        while (position > 0) {
+            if (tempNode.next == null) {
+                throw new IllegalArgumentException("Out of bound");
+            }
+            tempNode = tempNode.next;
+            position--;
+        }
+        return tempNode.item;
+
     }
 
     /**
