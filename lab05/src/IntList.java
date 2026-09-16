@@ -121,7 +121,12 @@ public class IntList {
      * @param value, the int to be added.
      */
     public void add(int value) {
-        // TODO: YOUR CODE HERE
+        IntList temp = this;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        IntList new_node = new IntList(value, null);
+        temp.next = new_node;
     }
 
     /**
