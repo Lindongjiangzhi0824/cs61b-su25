@@ -99,8 +99,18 @@ public class IntList {
             return false;
         }
         if (obj instanceof IntList otherList) {
-            // TODO: your code here
-
+            if (otherList == this) {
+                return true;
+            }
+            IntList temp = this;
+            while (otherList != null && temp != null) {
+                if (otherList.item != temp.item) {
+                    return false;
+                }
+                otherList = otherList.next;
+                temp = temp.next;
+            }
+            return otherList == null && temp == null;
         }
         return false;
     }
