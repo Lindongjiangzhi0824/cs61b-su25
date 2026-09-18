@@ -114,15 +114,15 @@ public class SLList {
 
     /** Adds x to the list at the specified index. */
     public void add(int index, int x) {
-        int curr_index = 0;
+        int currIndex = 0;
         IntListNode temp = this.sentinel;
-        while (curr_index < index) {
+        while (currIndex < index) {
             if (temp.next != this.sentinel) {
                 temp = temp.next;
             } else {
                 break;
             }
-            curr_index += 1;
+            currIndex += 1;
         }
         IntListNode elem = new IntListNode(x, temp.next);
         temp.next = elem;
