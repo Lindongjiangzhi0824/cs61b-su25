@@ -131,6 +131,13 @@ public class SLList {
 
     /** Destructively reverses this list. */
     public void reverse() {
-        // TODO: YOUR CODE HERE
+        // s -> 1 -> 2 -> 3 -> s
+        SLList list = new SLList();
+        IntListNode temp = this.sentinel.next;
+        while (temp != this.sentinel) {
+            list.addFirst(temp.item);
+            temp = temp.next;
+        }
+        this.sentinel = list.sentinel;
     }
 }

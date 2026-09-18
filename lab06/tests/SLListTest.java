@@ -26,6 +26,13 @@ public class SLListTest {
 
     @Test
     public void testSLListReverse() {
-        // TODO: Add tests
+        SLList test1 = SLList.of(1, 3, 5);
+        SLList test2 = new SLList();
+        test1.reverse();
+        assertWithMessage("The test1 elements should be in order 1, 3, 5.").that(test1.equals(SLList.of(5, 3, 1))).isTrue();
+
+        test2.reverse();
+        assertWithMessage("test2 does not have a element").that(test2.size()).isEqualTo(0);
+        assertWithMessage("test2 after reverse still empty.").that(test2.equals(new SLList()));
     }
 }
