@@ -16,13 +16,19 @@ public class BooleanSet implements SimpleSet {
     /** Adds k to the set. */
     @Override
     public void add(int k) {
-        // TODO: Implement this method.
+        if (!contains[k]) {
+            contains[k] = true;
+            size += 1;
+        }
     }
 
     /** Removes k from the set. */
     @Override
     public void remove(int k) {
-        // TODO: Implement this method.
+        if (contains[k]) {
+            contains[k] = false;
+            size -= 1;
+        }
     }
 
     /** Return true if k is in this set, false otherwise. */
@@ -41,14 +47,19 @@ public class BooleanSet implements SimpleSet {
     /** Returns the number of items in the set. */
     @Override
     public int size() {
-        // TODO: Implement this method.
-        return 0;
+        return size;
     }
 
     /** Returns an array containing all of the elements in this collection. */
     @Override
     public int[] toIntArray() {
-        // TODO: Implement this method.
-        return null;
+        int[] arr = new int[size];
+        int index = 0;
+        for (int i = 0; i < contains.length; i++) {
+            if (contains[i]) {
+                arr[index++] = i;   // 存的是下标，也就是那个数字
+            }
+        }
+        return arr;
     }
 }
