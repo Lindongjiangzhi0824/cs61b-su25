@@ -82,4 +82,47 @@ public class LinkedListDeque61BTest {
         Deque61B<String> lld3 = new LinkedListDeque61B<>();
         assertThat(lld3.isEmpty()).isTrue();
     }
+
+    @Test
+    public void removeFirstTest() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+
+        /* Add some elements then remove one element.*/
+        lld1.addLast(1);
+        lld1.addLast(3);
+        lld1.addLast(8);
+
+        /*Before: sentinel -> 1 -> 3 -> 8 -> sentinel*/
+        /*After: sentinel -> 3 -> 8 -> sentinel*/
+        lld1.removeFirst();
+        assertThat(lld1.toList()).containsExactly(3, 8).inOrder();
+
+        Deque61B<Integer> lld2 = new LinkedListDeque61B<>();
+        /* No element test*/
+        /* Before: sentinel*/
+        /* After: sentinel*/
+        lld2.removeFirst();
+        assertThat(lld2.isEmpty()).isTrue();
+
+        Deque61B<Integer> lld3 = new LinkedListDeque61B<>();
+        /* Add one element but remove twice.*/
+        lld3.addLast(3);
+        lld3.removeFirst();
+        lld3.removeFirst();
+        assertThat(lld3.isEmpty()).isTrue();
+
+
+        Deque61B<Integer> lld4 = new LinkedListDeque61B<>();
+        /* Alternating insertion and deletion.*/
+        lld4.addLast(3);
+        lld4.removeFirst();
+        lld4.addLast(7);
+        lld4.addLast(8);
+        lld4.removeFirst();
+        lld4.addLast(2);
+        lld4.addLast(3);
+        lld4.removeFirst();
+        /* Expected: 2 -> 3 */
+        assertThat(lld4.toList()).containsExactly(2, 3).inOrder();
+    }
 }

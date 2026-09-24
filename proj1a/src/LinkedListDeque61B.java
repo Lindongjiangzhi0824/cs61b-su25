@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class LinkedListDeque61B<T> implements Deque61B<T>{
     public int getSize() {
@@ -75,7 +76,17 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T removeFirst() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        Node oldFirst = sentinel.next;
+        Node newFirst = oldFirst.next;
+
+        sentinel.next = newFirst;
+        newFirst.prev = sentinel;
+
+        setSize(getSize() - 1);
+        return oldFirst.val;
     }
 
     @Override
