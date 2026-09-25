@@ -126,7 +126,7 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
         if (index < 0 || index > getSize() - 1) {
             return null;
         }
-        Node temp = sentinel;
+        Node temp = sentinel.next;
         return getRecursiveHelper(temp, index);
     }
 

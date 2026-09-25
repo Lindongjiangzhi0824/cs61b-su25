@@ -188,21 +188,33 @@ public class LinkedListDeque61BTest {
     public void getRecursiveTest() {
         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
         /* The index of the visited object is greater than the size; null is returned.*/
-        assertThat(lld1.get(1)).isEqualTo(null);
+        assertThat(lld1.getRecursive(1)).isEqualTo(null);
         lld1.addLast(4);
         lld1.addLast(5);
         lld1.addLast(6);
         /* Actual: s -> 4 -> 5 -> 6 -> s*/
-        assertThat(lld1.get(2)).isEqualTo(6);
+        assertThat(lld1.getRecursive(2)).isEqualTo(6);
         lld1.removeLast();
         /* Actual: s -> 4 -> 5 -> s*/
-        assertThat(lld1.get(1)).isEqualTo(5);
-        assertThat(lld1.get(2)).isEqualTo(null);
+        assertThat(lld1.getRecursive(1)).isEqualTo(5);
+        assertThat(lld1.getRecursive(2)).isEqualTo(null);
     }
 
     @Test
     public void IntegrationTest() {
          /* Mix all methods.*/
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addFirst(3); // [3]
+        lld1.addLast(9); // [3,9]
+        lld1.addLast(6); // [3,9,6]
+        lld1.removeFirst(); //[9,6]
+        lld1.addFirst(4);// [4,9,6]
+        assertThat(lld1.toList()).containsExactly(4,9,6).inOrder();
+        assertThat(lld1.get(2)).isEqualTo(6);
+        int x = lld1.getRecursive(1);
+        assertThat(lld1.getRecursive(1)).isEqualTo(9);
+        assertThat(lld1.size()).isEqualTo(3);
+        assertThat(lld1.get(4)).isEqualTo(null);
 
     }
 }
