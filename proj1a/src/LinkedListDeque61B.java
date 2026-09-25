@@ -91,7 +91,21 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T removeLast() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        /* Find last node.*/
+        Node temp = sentinel.next;
+        Node prev = sentinel;
+        while (temp.next != sentinel) {
+            prev = temp;
+            temp = temp.next;
+        }
+        /* prev has been last node.*/
+        prev.next = sentinel;
+        temp.prev = null;
+        setSize(getSize()-1);
+        return prev.val;
     }
 
     @Override
