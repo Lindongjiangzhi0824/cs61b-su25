@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-public class LinkedListDeque61B<T> implements Deque61B<T>{
+public class LinkedListDeque61B<T> implements Deque61B<T> {
     public int getSize() {
         return size;
     }
@@ -11,7 +10,7 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
         this.size = size;
     }
 
-    private class Node{
+    private class Node {
         // 内部类复用外部类的泛型
         T val;
         Node prev;
@@ -37,27 +36,26 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
         temp.prev = node;
         node.next = temp;
 
-        setSize(size+1);
+        setSize(size + 1);
     }
 
     @Override
     public void addLast(T x) {
-        Node temp = sentinel;
-        while (temp.next != sentinel) {
-            temp = temp.next;
-        }
+        Node oldLast = sentinel.prev;
         Node node = new Node(x);
-        temp.next = node;
-        node.prev = temp;
+
+        oldLast.next = node;
+        node.prev = oldLast;
         node.next = sentinel;
-        setSize(size+1);
+        sentinel.prev = node;
+        setSize(size + 1);
     }
 
     @Override
     public List<T> toList() {
         List<T> returnList = new ArrayList<>();
         Node temp = sentinel.next;
-        while(temp != sentinel) {
+        while (temp != sentinel) {
             returnList.add(temp.val);
             temp = temp.next;
         }
@@ -95,22 +93,19 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
             return null;
         }
         /* Find last node.*/
-        Node temp = sentinel.next;
-        Node prev = sentinel;
-        while (temp.next != sentinel) {
-            prev = temp;
-            temp = temp.next;
-        }
-        /* prev has been last node.*/
-        prev.next = sentinel;
-        temp.prev = null;
-        setSize(getSize()-1);
-        return prev.val;
+        Node lastNode = sentinel.prev;
+        Node newLastNode = lastNode.prev;
+        /* newLastNode has been last node.*/
+        newLastNode.next = sentinel;
+        sentinel.prev = newLastNode;
+
+        setSize(getSize() - 1);
+        return newLastNode.val;
     }
 
     @Override
     public T get(int index) {
-        if(index > getSize() - 1) {
+        if (index > getSize() - 1) {
             return null;
         }
         Node temp = sentinel.next;
