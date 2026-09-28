@@ -1,7 +1,6 @@
 package src;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 /* An src.AmoebaFamily is a tree, where nodes are Amoebas, each of which can have
    any number of children. */
@@ -34,13 +33,26 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
 
     /* Returns the longest name in this src.AmoebaFamily. */
     public String longestName() {
-        // TODO: YOUR CODE HERE
-        return "";
+        String result = "";
+        Queue<Amoeba> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            // obtain queue head element.
+            Amoeba curr = queue.poll();
+            if (curr.name.length() > result.length()) {
+                result = curr.name;
+            }
+            for (Amoeba child : curr.getChildren()) {
+                queue.add(child);
+            }
+        }
+        return result;
     }
 
     /* Returns an Iterator for this src.AmoebaFamily. */
     public Iterator<Amoeba> iterator() {
-        return new AmoebaDFSIterator();
+        return new AmoebaBFSIterator(this.root);
     }
 
     /* Creates a new src.AmoebaFamily and prints it out. */
@@ -59,7 +71,9 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
         family.addChild("Marge", "Bill");
         family.addChild("Marge", "Hilary");
         System.out.println("Here's the family!");
-        // Optional TODO: use the iterator to print out the family!
+        for (Amoeba person : family) {
+            System.out.println(person.name);
+        }
     }
 
     /* An Amoeba is a node of an src.AmoebaFamily. */
@@ -119,21 +133,38 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
        O(N) operations. */
     public class AmoebaDFSIterator implements Iterator<Amoeba> {
 
-        // Optional TODO: IMPLEMENT THE CLASS HERE
+        Queue<Amoeba> queue;
 
         /* AmoebaDFSIterator constructor. Sets up all of the initial information
            for the AmoebaDFSIterator. */
         public AmoebaDFSIterator() {
         }
 
+        public AmoebaDFSIterator(Amoeba root) {
+            queue = new LinkedList<>();
+            traversal(root);
+        }
+
+        public void traversal(Amoeba root) {
+            if (root == null) {
+                return;
+            }
+            queue.add(root);
+            for (Amoeba child : root.getChildren()) {
+                traversal(child);
+            }
+        }
         /* Returns true if there is a next element to return. */
         public boolean hasNext() {
-            return false;
+            return !queue.isEmpty();
         }
 
         /* Returns the next element. */
         public Amoeba next() {
-            return null;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return queue.poll();
         }
 
         public void remove() {
@@ -146,21 +177,38 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
        O(N) operations. */
     public class AmoebaBFSIterator implements Iterator<Amoeba> {
 
-        // Optional TODO: IMPLEMENT THE CLASS HERE
+        Queue<Amoeba> queue;
+
 
         /* AmoebaBFSIterator constructor. Sets up all of the initial information
            for the AmoebaBFSIterator. */
         public AmoebaBFSIterator() {
         }
 
+        public AmoebaBFSIterator(Amoeba root) {
+            queue = new LinkedList<>();
+            if (root != null) {
+                queue.add(root);
+            }
+        }
+
         /* Returns true if there is a next element to return. */
+        @Override
         public boolean hasNext() {
-            return false;
+            return !queue.isEmpty();
         }
 
         /* Returns the next element. */
+        @Override
         public Amoeba next() {
-            return null;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            // out of deque
+            Amoeba current = queue.poll();
+            // child node enter queue
+            queue.addAll(current.getChildren());
+            return current;
         }
 
         public void remove() {
