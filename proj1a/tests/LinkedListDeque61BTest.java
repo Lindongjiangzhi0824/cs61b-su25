@@ -182,6 +182,7 @@ public class LinkedListDeque61BTest {
          Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
          /* The index of the visited object is greater than the size; null is returned.*/
         assertThat(lld1.get(1)).isEqualTo(null);
+        assertThat(lld1.get(-2)).isEqualTo(null);
         lld1.addLast(4);
         lld1.addLast(5);
         lld1.addLast(6);
@@ -198,6 +199,7 @@ public class LinkedListDeque61BTest {
         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
         /* The index of the visited object is greater than the size; null is returned.*/
         assertThat(lld1.getRecursive(1)).isEqualTo(null);
+        assertThat(lld1.getRecursive(-2)).isEqualTo(null);
         lld1.addLast(4);
         lld1.addLast(5);
         lld1.addLast(6);
