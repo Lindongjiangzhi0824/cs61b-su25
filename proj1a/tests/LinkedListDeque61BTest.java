@@ -166,6 +166,15 @@ public class LinkedListDeque61BTest {
         lld4.removeLast();
         /* Expected: 7 -> 2 */
         assertThat(lld4.toList()).containsExactly(7, 2).inOrder();
+
+
+        Deque61B<String> lld5 = new LinkedListDeque61B<>();
+        lld5.addFirst("Welcome");
+        lld5.addFirst("to");
+        lld5.addFirst("Java");
+        lld5.addFirst("programming");
+        lld5.addFirst("test");
+        assertThat(lld5.removeLast()).isEqualTo("Welcome");
     }
 
     @Test

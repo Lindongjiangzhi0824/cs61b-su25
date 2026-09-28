@@ -93,14 +93,14 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
             return null;
         }
         /* Find last node.*/
-        Node lastNode = sentinel.prev;
-        Node newLastNode = lastNode.prev;
+        Node oldLastNode = sentinel.prev;
+        Node newLastNode = oldLastNode.prev;
         /* newLastNode has been last node.*/
         newLastNode.next = sentinel;
         sentinel.prev = newLastNode;
 
         setSize(getSize() - 1);
-        return newLastNode.val;
+        return oldLastNode.val;
     }
 
     @Override
