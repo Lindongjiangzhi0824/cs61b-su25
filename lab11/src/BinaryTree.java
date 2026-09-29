@@ -172,7 +172,23 @@ public class BinaryTree<T> {
     /* Returns true if the tree's left and right children are the same height
        and are themselves completely balanced. */
     public boolean isCompletelyBalanced() {
-        // TODO: YOUR CODE HERE
+        if (this.getRoot().getLeft() == null && this.getRoot().getRight() == null) {
+            return false;
+        }
+
+        return isCompletelyBalancedHelper(getRoot());
+    }
+
+    private boolean isCompletelyBalancedHelper(TreeNode<T> root) {
+        if (root == null) {
+            return true;
+        }
+        int leftHeight = getHeight(root.left);
+        int rightHeight = getHeight(root.right);
+
+        if (leftHeight == rightHeight) {
+            return true;
+        }
         return false;
     }
 
