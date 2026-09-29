@@ -172,6 +172,9 @@ public class BinaryTree<T> {
     /* Returns true if the tree's left and right children are the same height
        and are themselves completely balanced. */
     public boolean isCompletelyBalanced() {
+        if (this.getRoot() == null) {
+            return true;
+        }
         if (this.getRoot().getLeft() == null && this.getRoot().getRight() == null) {
             return false;
         }
@@ -194,8 +197,14 @@ public class BinaryTree<T> {
 
     /* Returns a BinaryTree representing the Fibonacci calculation for N. */
     public static BinaryTree<Integer> fibTree(int N) {
-        BinaryTree<Integer> result = new BinaryTree<Integer>();
-        // TODO: YOUR CODE HERE
-        return null;
+        TreeNode root = new TreeNode<>(-1, null, null);
+        BinaryTree<Integer> result = new BinaryTree<Integer>(root);
+        if (N == 0 || N == 1) {
+            return new BinaryTree(new TreeNode(N, null, null));
+        }
+        result.root.left = fibTree(N - 1).getRoot();
+        result.root.right = fibTree(N - 2).getRoot();
+        root.item = result.root.left.item + result.root.right.item;
+        return result;
     }
 }
