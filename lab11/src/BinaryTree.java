@@ -157,8 +157,16 @@ public class BinaryTree<T> {
 
     /* Returns the height of the tree. */
     public int height() {
-        // TODO: YOUR CODE HERE
-        return 0;
+        return getHeight(this.getRoot());
+    }
+
+    private int getHeight(TreeNode<T> root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = getHeight(root.left) + 1;
+        int rightHeight = getHeight(root.right) + 1;
+        return Math.max(leftHeight, rightHeight);
     }
 
     /* Returns true if the tree's left and right children are the same height
