@@ -1,3 +1,5 @@
+import org.antlr.v4.runtime.tree.Tree;
+
 import java.util.ArrayList;
 
 public class BinaryTree<T> {
@@ -48,7 +50,30 @@ public class BinaryTree<T> {
     }
 
     /** Optional constructor, see optional exercise in lab (or last week's theoretical lab). */
-    public BinaryTree(ArrayList<T> pre, ArrayList<T> in) { }
+    public BinaryTree(ArrayList<T> pre, ArrayList<T> in) {
+        int length = pre.size();
+        root = BuildBinaryTree(0, length - 1, 0, length - 1, pre, in);
+    }
+
+    private TreeNode BuildBinaryTree(int preStart, int preEnd, int inStart, int inEnd, ArrayList<T> pre, ArrayList<T> in) {
+        if (preStart > preEnd) {
+            return null;
+        }
+        T rootVal = pre.get(preStart);
+        TreeNode root = new TreeNode(rootVal);
+        int rootIndex = -1;
+        for (int i = inStart ; i <= inEnd; i++) {
+            if (in.get(i).equals(rootVal)) {
+                rootIndex = i;
+                break;
+            }
+        }
+
+        int leftSize = rootIndex - inStart;
+        root.left = BuildBinaryTree(preStart + 1, preStart + leftSize, inStart, rootIndex - 1, pre, in);
+        root.right = BuildBinaryTree(preStart + leftSize + 1, preEnd, rootIndex + 1, inEnd, pre, in);
+        return root;
+    }
 
     /* Print the values in the tree in preorder. */
     public void printPreorder() {
