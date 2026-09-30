@@ -92,7 +92,7 @@ public class BinaryTreeTest {
 
         assertWithMessage("The preorder and/or inorder traversals for the given BinarySearchTree are incorrect")
                 .that(outContent.toString().trim())
-                .isEqualTo("x in preorder\nA B C D E F \nx in inorder\nB A E D F C \n\n".trim());
+                .isEqualTo("x in preorder\r\nA B C D E F \r\nx in inorder\r\nB A E D F C \r\n\r\n".trim());
 
     }
 }
