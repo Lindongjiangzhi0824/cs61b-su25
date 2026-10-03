@@ -48,7 +48,9 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     @Override
     public void addLast(T x) {
         if (size < nums.length) {
-            tail = Math.floorMod(tail + 1, nums.length);
+            if (nums[tail] != null) {
+                tail = Math.floorMod(tail + 1, nums.length);
+            }
             nums[tail] = x;
             size += 1;
         } else {

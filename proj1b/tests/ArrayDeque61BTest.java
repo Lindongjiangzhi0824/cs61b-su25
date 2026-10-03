@@ -57,8 +57,21 @@ public class ArrayDeque61BTest {
         assertThat(arrayDeque2.toList()).containsExactly("This", "is", "Java").inOrder();
         assertThat(arrayDeque2.size()).isEqualTo(3);
 
-        // lld1.addFirst("back"); // after this call we expect: ["back"]
-        // assertThat(lld1.toList()).containsExactly("back").inOrder();
+    }
 
+    @Test
+    public void addLastTest() {
+        ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>();
+        arrayDeque1.addLast(1);
+        arrayDeque1.addLast(3);
+        assertWithMessage("Convert to list should contain 1, 3.")
+                .that(arrayDeque1.toList()).containsExactly(1, 3).inOrder();
+        assertThat(arrayDeque1.size()).isEqualTo(2);
+        arrayDeque1.addLast(7);
+        assertThat(arrayDeque1.get(arrayDeque1.getTail())).isEqualTo(7);
+
+        arrayDeque1.addFirst(6);
+        assertThat(arrayDeque1.get(arrayDeque1.getHead())).isEqualTo(6);
+        assertThat(arrayDeque1.size()).isEqualTo(4);
     }
 }
