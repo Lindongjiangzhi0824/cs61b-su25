@@ -103,4 +103,20 @@ public class ArrayDeque61BTest {
         arrayDeque1.addFirst(9); // 9 -> 10 -> 3 -> 6 -> 8
         assertThat(arrayDeque1.toList()).containsExactly(9, 10, 3, 6, 8).inOrder();
     }
+
+    @Test
+    public void removeLastTest() {
+        ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>();
+        arrayDeque1.addFirst(3);  // 3
+        arrayDeque1.addFirst(4);  // 4 -> 3
+        arrayDeque1.addLast(6);  // 4 -> 3 -> 6
+        arrayDeque1.addLast(8);  // 4 -> 3 -> 6 -> 8
+        /* Check return value whether is equal to 4 */
+        assertThat(arrayDeque1.removeLast()).isEqualTo(8); // 4 -> 3 -> 6
+        assertThat(arrayDeque1.toList()).containsExactly(4, 3, 6).inOrder();
+        assertThat(arrayDeque1.size()).isEqualTo(3);
+        arrayDeque1.addFirst(10); // 10 -> 4 -> 3 -> 6
+        arrayDeque1.addFirst(9); // 9 -> 10 -> 4 -> 3 -> 6
+        assertThat(arrayDeque1.toList()).containsExactly(9, 10, 4, 3, 6).inOrder();
+    }
 }

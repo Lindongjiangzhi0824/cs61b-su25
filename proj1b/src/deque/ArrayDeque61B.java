@@ -93,7 +93,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public T removeLast() {
-        return null;
+        if (size() == 0 || nums[getTail()] == null) {
+            return null;
+        }
+        T returnVal = (T) nums[getTail()];
+        nums[tail] = null;
+        tail = Math.floorMod(tail - 1, nums.length);
+        size -= 1;
+        return returnVal;
     }
 
     @Override
