@@ -3,7 +3,7 @@ package deque;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayDeque61B<T> implements Deque61B<T>{
+public class ArrayDeque61B<T> implements Deque61B<T> {
     /* T can't be generic array, */
     private Object[] nums;
     /* Current number of elements */
@@ -81,7 +81,14 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T removeFirst() {
-        return null;
+        if (nums[getHead()] == null) {
+            return null;
+        }
+        T returnVal = (T) nums[getHead()];
+        nums[head] = null;
+        head = Math.floorMod(head + 1, nums.length);
+        size -= 1;
+        return returnVal;
     }
 
     @Override
