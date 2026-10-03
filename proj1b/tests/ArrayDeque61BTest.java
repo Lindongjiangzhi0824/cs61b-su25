@@ -74,4 +74,17 @@ public class ArrayDeque61BTest {
         assertThat(arrayDeque1.get(arrayDeque1.getHead())).isEqualTo(6);
         assertThat(arrayDeque1.size()).isEqualTo(4);
     }
+
+    @Test
+    public void isEmptyTest() {
+        ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>();
+        assertThat(arrayDeque1.isEmpty()).isTrue();
+
+        arrayDeque1.addFirst(3);
+        assertThat(arrayDeque1.isEmpty()).isFalse();
+
+        arrayDeque1.addLast(1);
+        arrayDeque1.addLast(8);
+        assertThat(arrayDeque1.isEmpty()).isFalse();
+    }
 }
