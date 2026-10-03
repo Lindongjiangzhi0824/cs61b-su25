@@ -9,6 +9,17 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     /* Current number of elements */
     private int size;
 
+    public int getHead() {
+        return head;
+    }
+
+    public int getTail() {
+        return tail;
+    }
+
+    private int head = 0;
+    private int tail = 0;
+
     public ArrayDeque61B() {
         nums = new Object[8];
         this.size = 0;
@@ -21,17 +32,39 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     }
     @Override
     public void addFirst(T x) {
-
+        if (size < nums.length) {
+            if (nums[head] != null) {
+                head = Math.floorMod(head - 1, nums.length);
+                nums[head] = x;
+            } else {
+                nums[head] = x;
+            }
+            size += 1;
+        } else {
+            System.out.println("Array is already full.");
+        }
     }
 
     @Override
     public void addLast(T x) {
-
+        if (size < nums.length) {
+            tail = Math.floorMod(tail + 1, nums.length);
+            nums[tail] = x;
+            size += 1;
+        } else {
+            System.out.println("Array is already full.");
+        }
     }
 
     @Override
     public List<T> toList() {
-        return List.of();
+        List<T> list = new ArrayList<>();
+        int cur = head;
+        for (int i = 0; i < size; i++) {
+            list.add((T) nums[cur]);
+            cur = (cur + 1) % nums.length;
+        }
+        return list;
     }
 
     @Override
@@ -41,7 +74,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
@@ -56,7 +89,12 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T get(int index) {
-        return null;
+        /* Need type check. */
+        int length = nums.length;
+        if (index > length - 1) {
+            return null;
+        }
+        return (T) nums[index];
     }
 
     @Override
@@ -64,9 +102,6 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         return null;
     }
 
-    public int getSize() {
-        return size;
-    }
 
     public Object[] getNums() {
         return nums;

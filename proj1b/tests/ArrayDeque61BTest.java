@@ -1,5 +1,5 @@
 import deque.ArrayDeque61B;
-
+import edu.princeton.cs.algs4.In;
 import jh61b.utils.Reflection;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +31,34 @@ public class ArrayDeque61BTest {
         /* Parameter-constrained constructor */
         ArrayDeque61B<Integer> arrayDeque2 = new ArrayDeque61B<>(10);
         assertWithMessage("Check size whether equal to 10.").that(arrayDeque2.getNums().length).isEqualTo(10);
-        assertWithMessage("Check size whether equal to 0.").that(arrayDeque2.getSize()).isEqualTo(0);
+        assertWithMessage("Check size whether equal to 0.").that(arrayDeque2.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void addFirstTest() {
+        ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>();
+        arrayDeque1.addFirst(5);
+        assertWithMessage("First element is 5.").that(arrayDeque1.get(arrayDeque1.getHead())).isEqualTo(5);
+        assertWithMessage("Size should equal to 1").that(arrayDeque1.size()).isEqualTo(1);
+        arrayDeque1.addFirst(8);
+        arrayDeque1.addFirst(9);
+        assertThat(arrayDeque1.toList()).containsExactly(9, 8, 5).inOrder();
+        assertThat(arrayDeque1.size()).isEqualTo(3);
+
+        /* Another element type test */
+        ArrayDeque61B<String> arrayDeque2 = new ArrayDeque61B<>();
+        arrayDeque2.addFirst("Java");
+        arrayDeque2.addFirst("is");
+        arrayDeque2.addFirst("This");
+        int tail = arrayDeque2.getTail();
+        String temp = arrayDeque2.get(arrayDeque2.getTail());
+        assertWithMessage("Check last element whether is equal to Java.")
+                .that(arrayDeque2.get(arrayDeque2.getTail())).isEqualTo("Java");
+        assertThat(arrayDeque2.toList()).containsExactly("This", "is", "Java").inOrder();
+        assertThat(arrayDeque2.size()).isEqualTo(3);
+
+        // lld1.addFirst("back"); // after this call we expect: ["back"]
+        // assertThat(lld1.toList()).containsExactly("back").inOrder();
+
     }
 }
