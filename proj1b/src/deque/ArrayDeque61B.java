@@ -8,6 +8,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     private Object[] nums;
     /* Current number of elements */
     private int size;
+    public int capacity = 8;
+    public double expansionLimit = 0.75;
+    public double reductionLimit = 0.25;
 
     public int getHead() {
         return head;
@@ -21,13 +24,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     private int tail = 0;
 
     public ArrayDeque61B() {
-        nums = new Object[8];
+        nums = new Object[capacity];
         this.size = 0;
     }
 
     /* Parameters Constructor */
     public ArrayDeque61B(int capacity) {
         nums = new Object[capacity];
+        this.capacity = capacity;
         this.size = 0;
     }
     @Override
@@ -40,6 +44,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
                 nums[head] = x;
             }
             size += 1;
+            if (capacity >= 16 && size >= expansionLimit * capacity) {
+                resizeUp();
+            }
         } else {
             System.out.println("Array is already full.");
         }
@@ -53,6 +60,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             }
             nums[tail] = x;
             size += 1;
+            if (capacity >= 16 && size >= expansionLimit * capacity) {
+                resizeUp();
+            }
         } else {
             System.out.println("Array is already full.");
         }
@@ -115,11 +125,69 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public T getRecursive(int index) {
-        return null;
+        throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
     }
 
 
     public Object[] getNums() {
         return nums;
+    }
+
+    public void resizeUp() {
+        /* When size great or equal 0.75 * capacity,
+        * (require base capacity >= 16)
+        * capacity = capacity * 2
+        * */
+        Object[] newNums = new Object[this.capacity * 2];
+        int headTemporary = getHead();
+        int tailTemporary = getTail();
+        if (getHead() <= getTail()) {
+            /* Remove the element to their respective position. */
+            /* eg.
+             before :0 -> 1 -> ... -> 5 -> null -> null ->.....-> null(15)
+             after : 0 -> 1 -> ... -> 5 -> null -> null ->.....-> null(31)
+             */
+            while (headTemporary <= tailTemporary) {
+                newNums[headTemporary] = nums[headTemporary];
+                headTemporary += 1;
+            }
+        } else {
+            /* Reset temporary variables */
+            headTemporary = getHead();
+            tailTemporary = getTail();
+            /*
+            *  1. Deal with the range from Head to End
+            *  same -> ....-> head -> ... -> End(15)
+            *  same -> ....-> head -> ... -> End(31)
+            *
+            *  every range elements the distance from head to End is same.
+            *  so lengthBefore - position(head_old) = lengthAfter - position(head_new)
+            *  position(head_new) = lengthAfter - lengthBefore + position(head_old)
+            * */
+            for (int i = headTemporary; i < capacity; i++) {
+                int curNewPostion = newNums.length - nums.length + i;
+                newNums[curNewPostion] = nums[i];
+            }
+            head = newNums.length - nums.length + headTemporary;
+            /* 2. Deal with the range from Start to Tail */
+            /*
+            * Range from start to Tail is same
+            * Before : 1 -> 2 -> 3 -> .... Tail -> ....
+            * After  : 1 -> 2 -> 3 -> .... Tail -> ....
+            * */
+            for (int i = 0; i <= tailTemporary; i++) {
+                newNums[i] = nums[i];
+            }
+        }
+        nums = newNums;
+        capacity = capacity * 2;
+    }
+
+    public boolean resizeDown() {
+        /* The capacity utilization rate is less than 25%;
+         * (require base capacity >= 16)
+         * the capacity has been halved. */
+
+        return false;
     }
 }
