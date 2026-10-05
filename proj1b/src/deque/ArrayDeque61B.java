@@ -47,6 +47,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             if (capacity >= 16 && size >= expansionLimit * capacity) {
                 resizeUp();
             }
+            if (capacity >= 32 && size <= capacity * reductionLimit) {
+                resizeDown();
+            }
         } else {
             System.out.println("Array is already full.");
         }
@@ -62,6 +65,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             size += 1;
             if (capacity >= 16 && size >= expansionLimit * capacity) {
                 resizeUp();
+            }
+            if (capacity >= 32 && size <= capacity * reductionLimit) {
+                resizeDown();
             }
         } else {
             System.out.println("Array is already full.");
@@ -98,6 +104,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         nums[head] = null;
         head = Math.floorMod(head + 1, nums.length);
         size -= 1;
+        if (capacity >= 32 && size <= capacity * reductionLimit) {
+            resizeDown();
+        }
         return returnVal;
     }
 
@@ -110,6 +119,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         nums[tail] = null;
         tail = Math.floorMod(tail - 1, nums.length);
         size -= 1;
+        if (capacity >= 32 && size <= capacity * reductionLimit) {
+            resizeDown();
+        }
         return returnVal;
     }
 
@@ -183,11 +195,73 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         capacity = capacity * 2;
     }
 
-    public boolean resizeDown() {
+    public void resizeDown() {
         /* The capacity utilization rate is less than 25%;
-         * (require base capacity >= 16)
+         * (require base capacity >= 32， the smallest capacity is 16.)
          * the capacity has been halved. */
+        int newCapacity = capacity / 2;
+        Object[] newNums = new Object[newCapacity];
+        int headTemporary = getHead();
+        int tailTemporary = getTail();
+        if (getHead() <= getTail()) {
+            /* Remove the element to their respective position. */
+            /* eg.
+             before :0 -> 1 -> ... -> 5 -> null -> null ->.....-> null(15)
+             after : 0 -> 1 -> ... -> 5 -> null -> null ->.....-> null(31)
+             */
+            if (tailTemporary < newCapacity) { // left half of the interval
+                for (int i = headTemporary; i <= tailTemporary; i++) {
+                    newNums[i] = nums[i];
+                }
+            } else if (headTemporary >= newCapacity) { // right half of the interval
+                for (int i = headTemporary; i <= tailTemporary; i++) {
+                    newNums[i - newCapacity] = nums[i];
+                }
+            } else { // [head, mid, tail]
+                /*
+                   * [head, mid) Don't move
+                   * [mid,tail] -> [start, tail]
+                   * */
+                for (int i = headTemporary; i < newCapacity; i++) {
+                    newNums[i] = nums[i];
+                }
+                for (int i = newCapacity; i <= tailTemporary; i++) {
+                    newNums[i - newCapacity] = nums[i];
+                }
+                // head not change ; tail (tailTempory -> (tailTempory - newCapacity))
+                tail = tailTemporary - newCapacity;
+            }
+        } else {
+            /* Reset temporary variables */
+            headTemporary = getHead();
+            tailTemporary = getTail();
+            /*
+             *  1. Deal with the range from Head to End
+             *  same -> ....-> head -> ... -> End(31)
+             * *  same -> ....-> head -> ... -> End(15)
+             *
+             *  every range elements the distance from head to End is same.
+             *  so lengthBefore - position(head_old) = lengthAfter - position(head_new)
+             *  position(head_new) = lengthAfter - lengthBefore + position(head_old)
+             * */
+            for (int i = headTemporary; i < capacity; i++) {
+                int curNewPostion = newNums.length - nums.length + i;
+                newNums[curNewPostion] = nums[i];
+            }
+            head = newNums.length - nums.length + headTemporary;
+            /* 2. Deal with the range from Start to Tail */
+            /*
+             * Range from start to Tail is same
+             * Before : 1 -> 2 -> 3 -> .... Tail -> ....
+             * After  : 1 -> 2 -> 3 -> .... Tail -> ....
+             * */
+            for (int i = 0; i <= tailTemporary; i++) {
+                newNums[i] = nums[i];
+            }
+        }
+        nums = newNums;
+        capacity = capacity / 2;
 
-        return false;
+
     }
 }

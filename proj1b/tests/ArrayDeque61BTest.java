@@ -153,14 +153,84 @@ public class ArrayDeque61BTest {
         assertThat(arrayDeque2.get(1)).isEqualTo(1);
         assertThat(arrayDeque2.get(4)).isEqualTo(4);
 
-
-
-
         ArrayDeque61B<Integer> arrayDeque3 = new ArrayDeque61B<>(16);
         for (int i = 0; i < 10; i++) {
             arrayDeque3.addLast(i);
         }
         /* Capacity not change */
         assertThat(arrayDeque3.capacity).isEqualTo(16);
+    }
+
+    @Test
+    public void resizeDown() {
+        ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>(32);
+        for (int i = 0; i < 4; i++) {
+            arrayDeque1.addLast(i);
+        }
+        /*
+        * When add first element should trigger resizeDown,
+        * because the utilization of capacity is less than 0.25
+        * So, after insert operations, what should be obtained is :
+        * 0 -> 1 -> .... -> null(15) [samllest capacity is 16]
+        * */
+
+        /* Check capacity after insert operations. */
+        assertThat(arrayDeque1.capacity).isEqualTo(16);
+        /* Check position of element */
+        assertThat(arrayDeque1.get(2)).isEqualTo(2);
+        assertThat(arrayDeque1.get(3)).isEqualTo(3);
+        assertThat(arrayDeque1.get(10)).isEqualTo(null);
+
+
+        ArrayDeque61B<Integer> arrayDeque2 = new ArrayDeque61B<>(32);
+        for (int i = 0; i < 4; i++) {
+            arrayDeque2.addFirst(i);
+        }
+        /* After insert operations get : 0(0 tail) -> null -> ... -> 3 -> 2 -> 1(15 head) */
+
+        assertThat(arrayDeque2.capacity).isEqualTo(16);
+        assertThat(arrayDeque2.get(15)).isEqualTo(1);
+        assertThat(arrayDeque2.get(14)).isEqualTo(2);
+        assertThat(arrayDeque2.get(13)).isEqualTo(3);
+        assertThat(arrayDeque2.get(0)).isEqualTo(0);
+        assertThat(arrayDeque2.get(2)).isEqualTo(null);
+
+        ArrayDeque61B<Integer> arrayDeque3 = new ArrayDeque61B<>(32);
+        for (int i = 0; i < 23; i++) {
+            if (i < 12) {
+                arrayDeque3.addLast(i);
+            } else {
+                arrayDeque3.addFirst(i);
+            }
+        }
+        /* After insert operations ,
+        should obtain : 0 -> 1 -> .... -> 11 (11 tail) -> .... -> 22(20 head) -> 22 -> .... -> 12(31)*/
+        /* First trigger resizeDown , then trigger resizeUp. */
+        assertThat(arrayDeque3.capacity).isEqualTo(32);
+        assertThat(arrayDeque3.get(arrayDeque3.getHead())).isEqualTo(22);
+        assertThat(arrayDeque3.get(arrayDeque3.getTail())).isEqualTo(11);
+        assertThat(arrayDeque3.get(11)).isEqualTo(11);
+        assertThat(arrayDeque3.get(21)).isEqualTo(22);
+        assertThat(arrayDeque3.get(31)).isEqualTo(12);
+
+
+        ArrayDeque61B<Integer> arrayDeque4 = new ArrayDeque61B<>(32);
+        /* null -> .... -> head -> ... -> tail -> null -> ... -> null */
+        /*
+        * 1. [head,tail] in left half of the interval
+        * 2. [head,tail] in right half of the interval
+        * 3. [head, mid, tail]
+        * */
+        for (int i = 0; i < 20; i++) {
+            arrayDeque4.addLast(i);
+        }
+        for (int i = 0; i < 11; i++) {
+            arrayDeque4.removeFirst();
+        }
+        arrayDeque4.removeFirst();
+        assertThat(arrayDeque4.size()).isEqualTo(8);
+        assertThat(arrayDeque4.getHead()).isEqualTo(12);
+        assertThat(arrayDeque4.getTail()).isEqualTo(3);
+
     }
 }
