@@ -129,7 +129,7 @@ public class ArrayDeque61BTest {
             arrayDeque1.addLast(i);
         }
         /* Check the capacity whether trigger resizeUp. */
-        assertThat(arrayDeque1.capacity).isEqualTo(32);
+        assertThat(arrayDeque1.getCapacity()).isEqualTo(32);
         /* Check whether the order of elements has changed normally. */
         /* 1(0) -> 2 -> 3 -> ..... -> null(15) */
         /* 1(0) -> 2 -> 3 -> ..... -> null(31) */
@@ -158,7 +158,7 @@ public class ArrayDeque61BTest {
             arrayDeque3.addLast(i);
         }
         /* Capacity not change */
-        assertThat(arrayDeque3.capacity).isEqualTo(16);
+        assertThat(arrayDeque3.getCapacity()).isEqualTo(16);
     }
 
     @Test
@@ -175,7 +175,7 @@ public class ArrayDeque61BTest {
         * */
 
         /* Check capacity after insert operations. */
-        assertThat(arrayDeque1.capacity).isEqualTo(16);
+        assertThat(arrayDeque1.getCapacity()).isEqualTo(16);
         /* Check position of element */
         assertThat(arrayDeque1.get(2)).isEqualTo(2);
         assertThat(arrayDeque1.get(3)).isEqualTo(3);
@@ -188,7 +188,7 @@ public class ArrayDeque61BTest {
         }
         /* After insert operations get : 0(0 tail) -> null -> ... -> 3 -> 2 -> 1(15 head) */
 
-        assertThat(arrayDeque2.capacity).isEqualTo(16);
+        assertThat(arrayDeque2.getCapacity()).isEqualTo(16);
         assertThat(arrayDeque2.get(15)).isEqualTo(1);
         assertThat(arrayDeque2.get(14)).isEqualTo(2);
         assertThat(arrayDeque2.get(13)).isEqualTo(3);
@@ -206,7 +206,7 @@ public class ArrayDeque61BTest {
         /* After insert operations ,
         should obtain : 0 -> 1 -> .... -> 11 (11 tail) -> .... -> 22(20 head) -> 22 -> .... -> 12(31)*/
         /* First trigger resizeDown , then trigger resizeUp. */
-        assertThat(arrayDeque3.capacity).isEqualTo(32);
+        assertThat(arrayDeque3.getCapacity()).isEqualTo(32);
         assertThat(arrayDeque3.get(arrayDeque3.getHead())).isEqualTo(22);
         assertThat(arrayDeque3.get(arrayDeque3.getTail())).isEqualTo(11);
         assertThat(arrayDeque3.get(11)).isEqualTo(11);

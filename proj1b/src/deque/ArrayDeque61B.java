@@ -8,9 +8,27 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     private Object[] nums;
     /* Current number of elements */
     private int size;
-    public int capacity = 8;
-    public double expansionLimit = 0.75;
-    public double reductionLimit = 0.25;
+    private int capacity = 8;
+
+    public double getExpansionLimit() {
+        return EXPANSION_THRESHOLD;
+    }
+
+    public double getReductionLimit() {
+        return SHRINK_THRESHOLD;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    private static final double EXPANSION_THRESHOLD = 0.75;
+    private static final double SHRINK_THRESHOLD = 0.25;
+
+
+    /** 缩容后的最小容量。 */
+    private static final int MIN_CAPACITY = 16;
+    private static final int MIN_SHRINK_CAPACITY = 32;
 
     public int getHead() {
         return head;
@@ -44,10 +62,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
                 nums[head] = x;
             }
             size += 1;
-            if (capacity >= 16 && size >= expansionLimit * capacity) {
+            if (capacity >= MIN_CAPACITY && size >= EXPANSION_THRESHOLD * capacity) {
                 resizeUp();
             }
-            if (capacity >= 32 && size <= capacity * reductionLimit) {
+            if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
                 resizeDown();
             }
         } else {
@@ -63,10 +81,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             }
             nums[tail] = x;
             size += 1;
-            if (capacity >= 16 && size >= expansionLimit * capacity) {
+            if (capacity >= MIN_CAPACITY && size >= EXPANSION_THRESHOLD * capacity) {
                 resizeUp();
             }
-            if (capacity >= 32 && size <= capacity * reductionLimit) {
+            if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
                 resizeDown();
             }
         } else {
@@ -104,7 +122,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         nums[head] = null;
         head = Math.floorMod(head + 1, nums.length);
         size -= 1;
-        if (capacity >= 32 && size <= capacity * reductionLimit) {
+        if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
             resizeDown();
         }
         return returnVal;
@@ -119,7 +137,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         nums[tail] = null;
         tail = Math.floorMod(tail - 1, nums.length);
         size -= 1;
-        if (capacity >= 32 && size <= capacity * reductionLimit) {
+        if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
             resizeDown();
         }
         return returnVal;
@@ -217,6 +235,8 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
                 for (int i = headTemporary; i <= tailTemporary; i++) {
                     newNums[i - newCapacity] = nums[i];
                 }
+                head = head - newCapacity;
+                tail = tail - newCapacity;
             } else { // [head, mid, tail]
                 /*
                    * [head, mid) Don't move
