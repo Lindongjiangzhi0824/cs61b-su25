@@ -309,8 +309,12 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ArrayDeque61B<?> other)) return false;
-        if (this.size != other.size) return false;
+        if (!(o instanceof ArrayDeque61B<?> other)) {
+            return false;
+        }
+        if (this.size != other.size) {
+            return false;
+        }
 
         Iterator<T> it1 = this.iterator();
         /* Can't assert the it2's type . */
