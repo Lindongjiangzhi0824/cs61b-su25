@@ -18,7 +18,7 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new LinkedListDequeIterator();
     }
 
     private class Node{
@@ -34,6 +34,26 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
             this.val = val;
         }
     }
+    private class LinkedListDequeIterator implements Iterator<T> {
+        Node node = sentinel;
+        @Override
+        public boolean hasNext() {
+            if (node.next != sentinel) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No next element.");
+            }
+            node = node.next;
+            return node.val;
+        }
+    }
+
 
     private Node sentinel;
     private int size;

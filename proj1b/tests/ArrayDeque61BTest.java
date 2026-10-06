@@ -1,14 +1,9 @@
 import deque.ArrayDeque61B;
-import edu.princeton.cs.algs4.In;
-import jh61b.utils.Reflection;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.DisplayName;
+import deque.LinkedListDeque61B;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
-import java.sql.Array;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedList;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -236,7 +231,7 @@ public class ArrayDeque61BTest {
     }
 
     @Test
-    public void iteratorTest() {
+    public void ArrayDequeIteratorTest() {
         ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>(8);
         for (int i = 0; i < 5; i++) {
             arrayDeque1.addLast(i % 3);
@@ -253,6 +248,25 @@ public class ArrayDeque61BTest {
             it.next();
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+
+    @Test
+    public void LinkedListIteratorTest() {
+        LinkedListDeque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        for (int i = 0; i < 6; i++) {
+            lld1.addLast(i);
+        }
+        Iterator it = lld1.iterator();
+        for (int i = 0; i < 6; i++) {
+            assertThat(it.hasNext()).isTrue();
+            assertThat(it.next()).isEqualTo(i);
+        }
+        assertThat(it.hasNext()).isFalse();
+
+        /* For-each assess every element*/
+        for (int a : lld1) {
+            System.out.println(a);
         }
     }
 }
