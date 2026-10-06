@@ -1,11 +1,6 @@
 package deque;
 
-import deque.Deque61B;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class LinkedListDeque61B<T> implements Deque61B<T> {
     public int getSize() {
@@ -172,5 +167,27 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         sentinel.next = sentinel;
 
         setSize(0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        /* Should remember instance of usage.*/
+        /*
+        * o instanceof A<?> B , if 条件成立后，则相当于
+        *  A<?> B = A<?> o
+        * */
+        if (!(o instanceof LinkedListDeque61B<?> other)) return false;
+        if (this.size != other.size) return false;
+
+        Iterator<T> it1 = this.iterator();
+        Iterator<?> it2 = other.iterator();
+
+        while (it1.hasNext() && it2.hasNext()) {
+            if (!(Objects.equals(it1.next(), it2.next()))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

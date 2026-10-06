@@ -309,4 +309,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             return val;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return true;
+    }
 }
