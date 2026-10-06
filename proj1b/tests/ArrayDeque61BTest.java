@@ -285,6 +285,24 @@ public class ArrayDeque61BTest {
         lld2.addLast("back");
 
         assertThat(lld1).isEqualTo(lld2);
+
+        Deque61B<Integer> lld3 = new ArrayDeque61B<>();
+        Deque61B<Integer> lld4 = new ArrayDeque61B<>();
+        Deque61B<Integer> lld5 = new ArrayDeque61B<>();
+
+        lld3.addLast(1);
+        lld3.addLast(2);
+        lld3.addLast(3);
+
+        lld4.addLast(1);
+        lld4.addLast(2);
+        lld4.addLast(3);
+
+        lld5.addLast(1);
+        lld5.addLast(2);
+
+        assertThat(lld3).isEqualTo(lld4);
+        assertThat(lld4).isNotEqualTo(lld5);
     }
 
 }
