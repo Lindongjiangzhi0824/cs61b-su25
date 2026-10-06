@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.sql.Array;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -162,7 +163,7 @@ public class ArrayDeque61BTest {
     }
 
     @Test
-    public void resizeDown() {
+    public void resizeDownTest() {
         ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>(32);
         for (int i = 0; i < 4; i++) {
             arrayDeque1.addLast(i);
@@ -232,5 +233,26 @@ public class ArrayDeque61BTest {
         assertThat(arrayDeque4.getHead()).isEqualTo(12);
         assertThat(arrayDeque4.getTail()).isEqualTo(3);
 
+    }
+
+    @Test
+    public void iteratorTest() {
+        ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>(8);
+        for (int i = 0; i < 5; i++) {
+            arrayDeque1.addLast(i % 3);
+        }
+
+        Iterator it = arrayDeque1.iterator();
+        for (int i = 0; i < 5; i++) {
+            assertThat(it.hasNext()).isTrue();
+            assertThat(it.next()).isEqualTo(i % 3);
+        }
+
+        /* Catch Error Test.*/
+        try {
+            it.next();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

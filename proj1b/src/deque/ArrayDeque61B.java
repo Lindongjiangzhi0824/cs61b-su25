@@ -1,7 +1,9 @@
 package deque;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ArrayDeque61B<T> implements Deque61B<T> {
     /* T can't be generic array, */
@@ -283,5 +285,28 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         capacity = capacity / 2;
 
 
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int pos = 0; // from 0 to size-1
+        @Override
+        public boolean hasNext() {
+            return pos < size;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No next element.");
+            }
+            T val = (T) nums[(head + pos) % nums.length];
+            pos += 1;
+            return val;
+        }
     }
 }
