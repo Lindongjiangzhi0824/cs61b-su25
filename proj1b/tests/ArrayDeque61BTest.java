@@ -305,4 +305,22 @@ public class ArrayDeque61BTest {
         assertThat(lld4).isNotEqualTo(lld5);
     }
 
+    @Test
+    public void toStringTest() {
+        Deque61B<String> lld1 = new LinkedListDeque61B<>();
+
+        lld1.addLast("front");
+        lld1.addLast("middle");
+        lld1.addLast("back");
+
+        assertThat(lld1.toString()).isEqualTo("[front, middle, back]");
+
+        Deque61B<String> lld2 = new ArrayDeque61B<>();
+        lld2.addLast("A");
+        lld2.addLast("B");
+        lld2.addLast("C");
+        assertThat(lld2.toString()).isEqualTo("[A, B, C]");
+
+    }
+
 }
