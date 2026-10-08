@@ -26,8 +26,8 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
 
     /** 缩容后的最小容量。 */
-    private static final int MIN_CAPACITY = 16;
-    private static final int MIN_SHRINK_CAPACITY = 32;
+    private static final int MIN_CAPACITY = 8;
+    private static final int MIN_SHRINK_CAPACITY = 16;
 
     public int getHead() {
         return head;
@@ -51,6 +51,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         this.capacity = capacity;
         this.size = 0;
     }
+
     @Override
     public void addFirst(T x) {
         if (size < nums.length) {
@@ -134,8 +135,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
         T returnVal = (T) nums[getTail()];
         nums[tail] = null;
-        tail = Math.floorMod(tail - 1, nums.length);
+
         size -= 1;
+        if (size == 0) {
+            head = 0;
+            tail = 0;
+        } else {
+            tail = (head + size - 1) % nums.length;
+        }
         if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
             resizeDown();
         }
@@ -146,10 +153,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     public T get(int index) {
         /* Need type check. */
         int length = nums.length;
-        if (index > length - 1) {
+        if (index < 0 || index > length - 1) {
             return null;
         }
-        return (T) nums[index];
+        return (T) nums[(head + index) % nums.length];
     }
 
     @Override

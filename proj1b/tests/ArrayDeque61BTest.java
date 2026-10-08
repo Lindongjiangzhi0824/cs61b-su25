@@ -74,6 +74,17 @@ public class ArrayDeque61BTest {
     }
 
     @Test
+    public void bugCheckTest() {
+        ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>();
+        arrayDeque1.addLast(0);
+        arrayDeque1.addFirst(1);
+        arrayDeque1.removeLast();
+        arrayDeque1.removeLast();
+        arrayDeque1.addLast(4);
+        assertThat(arrayDeque1.removeFirst()).isEqualTo(4);
+    }
+
+    @Test
     public void isEmptyTest() {
         ArrayDeque61B<Integer> arrayDeque1 = new ArrayDeque61B<>();
         assertThat(arrayDeque1.isEmpty()).isTrue();
@@ -172,7 +183,7 @@ public class ArrayDeque61BTest {
         * */
 
         /* Check capacity after insert operations. */
-        assertThat(arrayDeque1.getCapacity()).isEqualTo(16);
+        assertThat(arrayDeque1.getCapacity()).isEqualTo(8);
         /* Check position of element */
         assertThat(arrayDeque1.get(2)).isEqualTo(2);
         assertThat(arrayDeque1.get(3)).isEqualTo(3);
@@ -185,10 +196,10 @@ public class ArrayDeque61BTest {
         }
         /* After insert operations get : 0(0 tail) -> null -> ... -> 3 -> 2 -> 1(15 head) */
 
-        assertThat(arrayDeque2.getCapacity()).isEqualTo(16);
-        assertThat(arrayDeque2.get(15)).isEqualTo(1);
-        assertThat(arrayDeque2.get(14)).isEqualTo(2);
-        assertThat(arrayDeque2.get(13)).isEqualTo(3);
+        assertThat(arrayDeque2.getCapacity()).isEqualTo(8);
+        assertThat(arrayDeque2.get(7)).isEqualTo(1);
+        assertThat(arrayDeque2.get(6)).isEqualTo(2);
+        assertThat(arrayDeque2.get(5)).isEqualTo(3);
         assertThat(arrayDeque2.get(0)).isEqualTo(0);
         assertThat(arrayDeque2.get(2)).isEqualTo(null);
 
