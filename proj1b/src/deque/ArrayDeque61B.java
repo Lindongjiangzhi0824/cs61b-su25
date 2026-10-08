@@ -120,8 +120,13 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
         T returnVal = (T) nums[getHead()];
         nums[head] = null;
-        head = Math.floorMod(head + 1, nums.length);
         size -= 1;
+        if (size == 0) {
+            head = 0;
+            tail = 0;
+        } else {
+            head = (tail - size + 1) % nums.length;
+        }
         if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
             resizeDown();
         }

@@ -82,7 +82,45 @@ public class ArrayDeque61BTest {
         arrayDeque1.removeLast();
         arrayDeque1.addLast(4);
         assertThat(arrayDeque1.removeFirst()).isEqualTo(4);
+
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+        for (int i = 0; i < 5; i++) {
+            deque.addLast(1);
+        }
+        for (int i = 0; i < 4; i++) {
+            deque.removeFirst();
+        }
+        // 此时应该还剩 1 个元素：1
+        assertThat(deque).containsExactly(1);   // 或 onlyElement()
+
+
+
     }
+
+    @Test
+    public void addLastRemoveFirstRandom() {
+        ArrayDeque61B<Integer> testArrayDeque = new ArrayDeque61B<>();
+
+        // 直接复现失败的操作序列
+        testArrayDeque.addLast(0);
+        testArrayDeque.isEmpty();
+        assertThat(testArrayDeque.removeFirst()).isEqualTo(0);
+
+        testArrayDeque.addLast(3);
+        testArrayDeque.isEmpty();
+        testArrayDeque.addLast(5);
+        testArrayDeque.addLast(6);
+        testArrayDeque.addLast(7);
+        testArrayDeque.addLast(8);
+        testArrayDeque.addLast(9);
+
+        // 期望 removeFirst 返回 3
+        assertThat(testArrayDeque.removeFirst()).isEqualTo(3);
+
+        // 期望剩余列表是 [5, 6, 7, 8, 9]
+        assertThat(testArrayDeque.toList()).containsExactly(5, 6, 7, 8, 9);
+    }
+
 
     @Test
     public void isEmptyTest() {
