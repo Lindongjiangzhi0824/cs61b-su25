@@ -121,6 +121,22 @@ public class ArrayDeque61BTest {
         assertThat(testArrayDeque.toList()).containsExactly(5, 6, 7, 8, 9);
     }
 
+    @Test
+    public void LinkedListDequeBeEqualToArrayDequeTest() {
+        ArrayDeque61B<Integer> ad = new ArrayDeque61B<>();
+        LinkedListDeque61B<Integer> lld = new LinkedListDeque61B<>();
+
+        ad.addLast(1);
+        ad.addLast(2);
+        ad.addLast(3);
+
+        lld.addLast(1);
+        lld.addLast(2);
+        lld.addLast(3);
+
+        assertThat(lld).isEqualTo(ad);   // ❌ 失败
+    }
+
 
     @Test
     public void isEmptyTest() {

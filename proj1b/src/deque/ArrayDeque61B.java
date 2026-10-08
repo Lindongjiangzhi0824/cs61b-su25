@@ -321,10 +321,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ArrayDeque61B<?> other)) {
+        if (!(o instanceof Deque61B<?> other)) {
             return false;
         }
-        if (this.size != other.size) {
+        if (this.size != other.size()) {
             return false;
         }
 

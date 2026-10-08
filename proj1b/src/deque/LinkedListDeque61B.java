@@ -177,8 +177,10 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         * o instanceof A<?> B , if 条件成立后，则相当于
         *  A<?> B = A<?> o
         * */
-        if (!(o instanceof LinkedListDeque61B<?> other)) return false;
-        if (this.size != other.size) return false;
+        if (!(o instanceof Deque61B<?> other)) return false;
+        // 会去子类找对应的实现 ， 上面如果写 LinkedListDeque61b<?> 那就不能对比 ArrayDeque61b<?> 了
+        // 目的是实现内部内容的对比，而不是具体的类
+        if (this.size != other.size()) return false;
 
         Iterator<T> it1 = this.iterator();
         Iterator<?> it2 = other.iterator();
