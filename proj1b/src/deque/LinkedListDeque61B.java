@@ -16,7 +16,7 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         return new LinkedListDequeIterator();
     }
 
-    private class Node{
+    private class Node {
         // 内部类复用外部类的泛型
         T val;
         Node prev;
@@ -62,7 +62,7 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         temp.prev = node;
         node.next = temp;
 
-        setSize(size+1);
+        setSize(size + 1);
     }
 
     @Override
@@ -75,14 +75,14 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         temp.next = node;
         node.prev = temp;
         node.next = sentinel;
-        setSize(size+1);
+        setSize(size + 1);
     }
 
     @Override
     public List<T> toList() {
         List<T> returnList = new ArrayList<>();
         Node temp = sentinel.next;
-        while(temp != sentinel) {
+        while (temp != sentinel) {
             returnList.add(temp.val);
             temp = temp.next;
         }
@@ -129,13 +129,13 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         /* prev has been last node.*/
         prev.next = sentinel;
         temp.prev = null;
-        setSize(getSize()-1);
+        setSize(getSize() - 1);
         return prev.val;
     }
 
     @Override
     public T get(int index) {
-        if(index > getSize() - 1) {
+        if (index > getSize() - 1) {
             return null;
         }
         Node temp = sentinel.next;
@@ -171,16 +171,22 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
         /* Should remember instance of usage.*/
         /*
         * o instanceof A<?> B , if 条件成立后，则相当于
         *  A<?> B = A<?> o
         * */
-        if (!(o instanceof Deque61B<?> other)) return false;
+        if (!(o instanceof Deque61B<?> other)) {
+            return false;
+        }
         // 会去子类找对应的实现 ， 上面如果写 LinkedListDeque61b<?> 那就不能对比 ArrayDeque61b<?> 了
         // 目的是实现内部内容的对比，而不是具体的类
-        if (this.size != other.size()) return false;
+        if (this.size != other.size()) {
+            return false;
+        }
 
         Iterator<T> it1 = this.iterator();
         Iterator<?> it2 = other.iterator();
