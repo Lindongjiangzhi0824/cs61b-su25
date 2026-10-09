@@ -95,10 +95,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public List<T> toList() {
         List<T> list = new ArrayList<>();
-        int cur = head;
         for (int i = 0; i < size; i++) {
-            list.add((T) nums[cur]);
-            cur = (cur + 1) % nums.length;
+            int idx = Math.floorMod(head + i, nums.length);
+            list.add((T) nums[idx]);
         }
         return list;
     }
@@ -125,7 +124,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             head = 0;
             tail = 0;
         } else {
-            head = (tail - size + 1) % nums.length;
+            head = Math.floorMod(head + 1, nums.length);
         }
         if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
             resizeDown();
@@ -146,7 +145,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             head = 0;
             tail = 0;
         } else {
-            tail = (head + size - 1) % nums.length;
+            tail = Math.floorMod(tail - 1, nums.length);
         }
         if (capacity >= MIN_SHRINK_CAPACITY && size <= capacity * SHRINK_THRESHOLD) {
             resizeDown();
@@ -158,10 +157,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     public T get(int index) {
         /* Need type check. */
         int length = nums.length;
-        if (index < 0 || index > length - 1) {
+        if (index < 0 || index > size - 1) {
             return null;
         }
-        return (T) nums[(head + index) % nums.length];
+        return (T) nums[Math.floorMod(head + index, nums.length)];
     }
 
     @Override

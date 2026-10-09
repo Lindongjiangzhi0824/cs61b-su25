@@ -3,8 +3,7 @@ import deque.Deque61B;
 import deque.LinkedListDeque61B;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -49,9 +48,8 @@ public class ArrayDeque61BTest {
         arrayDeque2.addFirst("is");
         arrayDeque2.addFirst("This");
         int tail = arrayDeque2.getTail();
-        String temp = arrayDeque2.get(arrayDeque2.getTail());
         assertWithMessage("Check last element whether is equal to Java.")
-                .that(arrayDeque2.get(arrayDeque2.getTail())).isEqualTo("Java");
+                .that(arrayDeque2.getNums()[tail]).isEqualTo("Java");
         assertThat(arrayDeque2.toList()).containsExactly("This", "is", "Java").inOrder();
         assertThat(arrayDeque2.size()).isEqualTo(3);
 
@@ -69,7 +67,7 @@ public class ArrayDeque61BTest {
         assertThat(arrayDeque1.get(arrayDeque1.getTail())).isEqualTo(7);
 
         arrayDeque1.addFirst(6);
-        assertThat(arrayDeque1.get(arrayDeque1.getHead())).isEqualTo(6);
+        assertThat(arrayDeque1.getNums()[arrayDeque1.getHead()]).isEqualTo(6);
         assertThat(arrayDeque1.size()).isEqualTo(4);
     }
 
@@ -119,6 +117,47 @@ public class ArrayDeque61BTest {
 
         // 期望剩余列表是 [5, 6, 7, 8, 9]
         assertThat(testArrayDeque.toList()).containsExactly(5, 6, 7, 8, 9);
+    }
+
+    @Test
+    public void randomizedTestIncludingGet() {
+        Random random = new Random(42);   // 固定种子，方便复现
+        ArrayDeque61B<Integer> testArrayDeque = new ArrayDeque61B<>();
+        List<Integer> reference = new ArrayList<>();
+
+        for (int i = 0; i < 24; i++) {
+            double op = random.nextDouble();
+
+            if (op < 0.2) {
+                // addLast
+                int val = random.nextInt(10);
+                testArrayDeque.addLast(val);
+                reference.add(val);
+            } else if (op < 0.4) {
+                // addFirst
+                int val = random.nextInt(10);
+                testArrayDeque.addFirst(val);
+                reference.add(0, val);
+            } else if (op < 0.6) {
+                // removeFirst
+                Integer expected = reference.isEmpty() ? null : reference.remove(0);
+//                testArrayDeque.removeFirst();
+                assertThat(testArrayDeque.removeFirst()).isEqualTo(expected);
+            } else if (op < 0.8) {
+                // removeLast
+                Integer expected = reference.isEmpty() ? null : reference.remove(reference.size() - 1);
+                assertThat(testArrayDeque.removeLast()).isEqualTo(expected);
+            } else {
+                // get
+                if (!reference.isEmpty()) {
+                    int idx = random.nextInt(reference.size());
+                    assertThat(testArrayDeque.get(idx)).isEqualTo(reference.get(idx));
+                }
+            }
+
+            // 每次操作后对比整个列表
+            assertThat(testArrayDeque.toList()).isEqualTo(reference);
+        }
     }
 
     @Test
@@ -208,12 +247,11 @@ public class ArrayDeque61BTest {
         for (int i = 0; i < 4; i++) {
             arrayDeque2.addFirst(i);
         }
-        // Current arrayDeque2(Not Expansion) : 1(0) -> 2(1) -> .... -> 9(8 tail) -> ... -> 3(12 head) -> 2(13) -> 1(14) -> 0(15);
-        // Current arrayDeque2(After Expansion) : 1(0) -> 2(1) -> .... -> 9(8 tail) -> ... -> 3(28 head) -> 2(29) -> 1(30) -> 0(31);
-        assertThat(arrayDeque2.get(28)).isEqualTo(3);
-        assertThat(arrayDeque2.get(31)).isEqualTo(0);
-        assertThat(arrayDeque2.get(1)).isEqualTo(1);
-        assertThat(arrayDeque2.get(4)).isEqualTo(4);
+
+        assertThat(arrayDeque2.get(0)).isEqualTo(3);
+        assertThat(arrayDeque2.get(3)).isEqualTo(0);
+        assertThat(arrayDeque2.get(5)).isEqualTo(1);
+        assertThat(arrayDeque2.get(8)).isEqualTo(4);
 
         ArrayDeque61B<Integer> arrayDeque3 = new ArrayDeque61B<>(16);
         for (int i = 0; i < 10; i++) {
